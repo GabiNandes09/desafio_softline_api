@@ -1,6 +1,6 @@
 package com.gabrielfernandes.Desafio_SoftLine.models.address;
 
-public class AdressModel {
+public class AddressModel {
     int id;
     String zipCode;
     String street;
