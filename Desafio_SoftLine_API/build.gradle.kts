@@ -31,6 +31,9 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation ("jakarta.validation:jakarta.validation-api:3.0.2")
+	implementation ("org.hibernate.validator:hibernate-validator:7.0.2.Final")
+	implementation ("org.glassfish:jakarta.el:3.0.4")
 }
 
 tasks.withType<Test> {
