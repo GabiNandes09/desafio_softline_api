@@ -47,5 +47,4 @@ public class ProductModel {
     @Column(nullable = false)
     @PositiveOrZero(message = "O peso líquido deve ser maior ou igual a 0")
     private float netWeight;
-
 }
