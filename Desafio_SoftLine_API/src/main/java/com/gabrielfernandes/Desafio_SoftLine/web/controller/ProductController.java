@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductModel> selectById(@PathVariable int id){
+    public ResponseEntity<ProductModel> selectById(@PathVariable("id") int id){
         ProductModel response = productService.selectById(id);
         return ResponseEntity.ok(response);
     }
@@ -48,7 +48,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductModel> update(
-        @PathVariable int id,
+        @PathVariable("id") int id,
         @RequestBody @Valid ProductModel product
     ) {
         ProductModel response = productService.update(id, product);
@@ -57,7 +57,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(
-        @PathVariable int id
+        @PathVariable("id") int id
     ) {
         productService.deleteById(id);
         return ResponseEntity.ok("Produto removido com sucesso");

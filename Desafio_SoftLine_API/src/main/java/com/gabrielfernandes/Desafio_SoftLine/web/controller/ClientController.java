@@ -33,7 +33,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientModel> selectById(@PathVariable int id){
+    public ResponseEntity<ClientModel> selectById(@PathVariable("id") int id){
         ClientModel response = clientService.selectById(id);
         return ResponseEntity.ok(response);
     }
@@ -48,7 +48,7 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientModel> update(
-        @PathVariable int id,
+        @PathVariable("id") int id,
         @RequestBody @Valid ClientModel client
     ) {
         ClientModel response = clientService.update(id, client);
@@ -57,7 +57,7 @@ public class ClientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteById(
-        @PathVariable int id
+        @PathVariable("id") int id
     ) {
         clientService.deleteById(id);
         return ResponseEntity.ok("Cliente removido com sucesso");

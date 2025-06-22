@@ -1,13 +1,10 @@
 package com.gabrielfernandes.Desafio_SoftLine.models.address;
 
-import com.gabrielfernandes.Desafio_SoftLine.models.client.ClientModel;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -45,10 +42,11 @@ public class AddressModel {
     @Column(nullable = false)
     String city;
 
+    @NotBlank(message = "O estado é obrigatório")
+    @Column(nullable = false)
+    String state;
+
     @NotBlank(message = "O país é obrigatório")
     @Column(nullable = false)
     String country;
-
-    @OneToOne(mappedBy = "address")
-    private ClientModel client;
 }
