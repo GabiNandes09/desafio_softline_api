@@ -2,13 +2,14 @@ package com.gabrielfernandes.Desafio_SoftLine.models.client;
 
 import com.gabrielfernandes.Desafio_SoftLine.models.address.AddressModel;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,8 +35,8 @@ public class ClientModel {
     @Column(nullable = false, unique = true, length = 14)
     String document;
 
-    @ManyToOne
-    @JoinColumn(name = "id_address", nullable = false)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_address", referencedColumnName = "id", nullable = false)
     AddressModel address;
 
     public ClientModel(String name, String fantasyName, String document, AddressModel address) {
