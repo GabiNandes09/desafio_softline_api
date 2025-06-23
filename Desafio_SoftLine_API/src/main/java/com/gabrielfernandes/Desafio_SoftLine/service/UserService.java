@@ -2,6 +2,7 @@ package com.gabrielfernandes.Desafio_SoftLine.service;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public UserModel selectEntityById(int id){
@@ -46,6 +48,7 @@ public class UserService {
 
     @Transactional
     public UserModel saveEntity(UserModel model){
+        model.setPassword(passwordEncoder.encode(model.getPassword()));
         return userRepository.save(model);
     }
 

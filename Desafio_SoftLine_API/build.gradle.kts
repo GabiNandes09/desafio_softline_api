@@ -34,6 +34,10 @@ dependencies {
 	implementation ("jakarta.validation:jakarta.validation-api:3.0.2")
 	implementation ("org.hibernate.validator:hibernate-validator:7.0.2.Final")
 	implementation ("org.glassfish:jakarta.el:3.0.4")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.5.3")
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 }
 
 tasks.withType<Test> {
