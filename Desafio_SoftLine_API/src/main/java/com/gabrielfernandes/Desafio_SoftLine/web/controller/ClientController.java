@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gabrielfernandes.Desafio_SoftLine.models.client.ClientModel;
+import com.gabrielfernandes.Desafio_SoftLine.models.client.ClientRequestDTO;
+import com.gabrielfernandes.Desafio_SoftLine.models.client.ClientResponseDTO;
 import com.gabrielfernandes.Desafio_SoftLine.service.ClientService;
 
 import jakarta.validation.Valid;
@@ -27,39 +28,39 @@ public class ClientController {
     private final ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<List<ClientModel>> getAll(){
-        List<ClientModel> response = clientService.selectAll();
+    public ResponseEntity<List<ClientResponseDTO>> getAll(){
+        List<ClientResponseDTO> response = clientService.selectAll();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClientModel> selectById(@PathVariable("id") int id){
-        ClientModel response = clientService.selectById(id);
+    public ResponseEntity<ClientResponseDTO> selectById(@PathVariable("id") int id){
+        ClientResponseDTO response = clientService.selectById(id);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<ClientModel> create(
-        @RequestBody @Valid ClientModel client
+    public ResponseEntity<ClientResponseDTO> create(
+        @RequestBody @Valid ClientRequestDTO client
     ) {
-        ClientModel response = clientService.save(client);
+        ClientResponseDTO response = clientService.save(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientModel> update(
+    public ResponseEntity<ClientResponseDTO> update(
         @PathVariable("id") int id,
-        @RequestBody @Valid ClientModel client
+        @RequestBody @Valid ClientRequestDTO client
     ) {
-        ClientModel response = clientService.update(id, client);
+        ClientResponseDTO response = clientService.update(id, client);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(
+    public ResponseEntity<ClientResponseDTO> deleteById(
         @PathVariable("id") int id
     ) {
-        clientService.deleteById(id);
-        return ResponseEntity.ok("Cliente removido com sucesso");
+        ClientResponseDTO response = clientService.deleteById(id);
+        return ResponseEntity.ok(response);
     }
 }

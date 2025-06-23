@@ -48,15 +48,14 @@ public class AddressService {
     }
 
     @Transactional
-    public AddressResponseDTO update(int id, AddressRequestDTO updatedAddress) {
+    public AddressModel update(int id, AddressRequestDTO updatedAddress) {
         AddressModel existingAddress = selectEntityById(id);
 
         AddressMapper.update(existingAddress, updatedAddress);
-        
-        existingAddress = saveEntity(existingAddress);
 
-        return AddressMapper.toResponse(existingAddress);
+        return saveEntity(existingAddress);
     }
+    
 
     @Transactional
     public AddressResponseDTO deleteById(int id){
