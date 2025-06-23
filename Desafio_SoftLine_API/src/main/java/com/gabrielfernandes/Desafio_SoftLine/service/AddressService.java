@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.gabrielfernandes.Desafio_SoftLine.models.address.AddressMapper;
 import com.gabrielfernandes.Desafio_SoftLine.models.address.AddressModel;
+import com.gabrielfernandes.Desafio_SoftLine.models.address.AddressRequestDTO;
+import com.gabrielfernandes.Desafio_SoftLine.models.address.AddressResponseDTO;
 import com.gabrielfernandes.Desafio_SoftLine.repository.AddressRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -17,38 +20,48 @@ public class AddressService {
     private final AddressRepository addressRepository;
 
     @Transactional(readOnly = true)
-    public AddressModel selectById(int id) {
+    public AddressResponseDTO selectById(int id) {
+        return AddressMapper.toResponse(selectEntityById(id));
+    }
+
+    @Transactional
+    public AddressModel selectEntityById(int id){
         return addressRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Endereço com id " + id + " não encontrado."));
     }
 
     @Transactional(readOnly = true)
-    public List<AddressModel> selectAll() {
-        return addressRepository.findAll();
+    public List<AddressResponseDTO> selectAll() {
+        List<AddressModel> response = addressRepository.findAll();
+        return response.stream().map(AddressMapper::toResponse).toList();
     }
 
     @Transactional
-    public AddressModel save(AddressModel address) {
-        return addressRepository.save(address);
+    public AddressResponseDTO save(AddressRequestDTO request) {
+        AddressModel response = saveEntity(AddressMapper.toEntity(request));
+        return AddressMapper.toResponse(response);
     }
 
     @Transactional
-    public AddressModel update(int id, AddressModel updatedAddress) {
-        AddressModel existingAddress = selectById(id);
+    public AddressModel saveEntity(AddressModel model){
+        return addressRepository.save(model);
+    }
 
-        existingAddress.setZipCode(updatedAddress.getZipCode());
-        existingAddress.setStreet(updatedAddress.getStreet());
-        existingAddress.setNumber(updatedAddress.getNumber());
-        existingAddress.setNeighborhood(updatedAddress.getNeighborhood());
-        existingAddress.setCity(updatedAddress.getCity());
-        existingAddress.setCountry(updatedAddress.getCountry());
+    @Transactional
+    public AddressResponseDTO update(int id, AddressRequestDTO updatedAddress) {
+        AddressModel existingAddress = selectEntityById(id);
+
+        AddressMapper.update(existingAddress, updatedAddress);
         
+        existingAddress = saveEntity(existingAddress);
 
-        return save(existingAddress);
+        return AddressMapper.toResponse(existingAddress);
     }
 
     @Transactional
-    public void deleteById(int id){
+    public AddressResponseDTO deleteById(int id){
+        AddressModel entity = selectEntityById(id);
         addressRepository.deleteById(id);
+        return AddressMapper.toResponse(entity);
     }
 }
