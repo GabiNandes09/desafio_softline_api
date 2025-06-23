@@ -61,9 +61,6 @@ public class ClientModel {
     private LocalDateTime modifiedAt;
     private int modifiedBy;
 
-    private LocalDateTime deletedAt;
-    private int deletedBy;
-
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();

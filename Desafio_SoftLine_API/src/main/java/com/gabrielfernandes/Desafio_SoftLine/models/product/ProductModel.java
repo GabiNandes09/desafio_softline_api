@@ -49,9 +49,6 @@ public class ProductModel {
     LocalDateTime modifiedAt;
     int modifiedBy;
 
-    LocalDateTime deletedAt;
-    int deletedBy;
-
     @PrePersist
     public void prePersist() {
         LocalDateTime now = LocalDateTime.now();
