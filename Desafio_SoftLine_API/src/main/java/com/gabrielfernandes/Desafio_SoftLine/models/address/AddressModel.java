@@ -1,5 +1,7 @@
 package com.gabrielfernandes.Desafio_SoftLine.models.address;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -49,4 +51,13 @@ public class AddressModel {
     @NotBlank(message = "O país é obrigatório")
     @Column(nullable = false)
     String country;
+
+    LocalDateTime createdAt;
+    int createdBy;
+
+    LocalDateTime modifiedAt;
+    int modifiedBy;
+
+    LocalDateTime deletedAt;
+    int deletedBy;
 }

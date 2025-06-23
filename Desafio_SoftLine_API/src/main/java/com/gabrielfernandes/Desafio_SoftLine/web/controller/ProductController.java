@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gabrielfernandes.Desafio_SoftLine.models.product.ProductModel;
+import com.gabrielfernandes.Desafio_SoftLine.models.product.ProductRequestDTO;
+import com.gabrielfernandes.Desafio_SoftLine.models.product.ProductResponseDTO;
 import com.gabrielfernandes.Desafio_SoftLine.service.ProductService;
 
 import jakarta.validation.Valid;
@@ -27,39 +28,39 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductModel>> getAll(){
-        List<ProductModel> response = productService.selectAll();
+    public ResponseEntity<List<ProductResponseDTO>> getAll(){
+        List<ProductResponseDTO> response = productService.selectAll();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductModel> selectById(@PathVariable("id") int id){
-        ProductModel response = productService.selectById(id);
+    public ResponseEntity<ProductResponseDTO> selectById(@PathVariable("id") int id){
+        ProductResponseDTO response = productService.selectById(id);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<ProductModel> create(
-        @RequestBody @Valid ProductModel product
+    public ResponseEntity<ProductResponseDTO> create(
+        @RequestBody @Valid ProductRequestDTO product
     ) {
-        ProductModel response = productService.save(product);
+        ProductResponseDTO response = productService.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductModel> update(
+    public ResponseEntity<ProductResponseDTO> update(
         @PathVariable("id") int id,
-        @RequestBody @Valid ProductModel product
+        @RequestBody @Valid ProductRequestDTO product
     ) {
-        ProductModel response = productService.update(id, product);
+        ProductResponseDTO response = productService.update(id, product);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteById(
+    public ResponseEntity<ProductResponseDTO> deleteById(
         @PathVariable("id") int id
     ) {
-        productService.deleteById(id);
-        return ResponseEntity.ok("Produto removido com sucesso");
+        ProductResponseDTO response = productService.deleteById(id);
+        return ResponseEntity.ok(response);
     }
 }
