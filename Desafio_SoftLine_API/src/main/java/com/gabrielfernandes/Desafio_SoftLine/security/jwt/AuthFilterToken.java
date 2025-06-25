@@ -17,7 +17,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class AuthFilterToken extends OncePerRequestFilter{
+public class AuthFilterToken extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -35,13 +35,14 @@ public class AuthFilterToken extends OncePerRequestFilter{
                 String username = jwtUtils.getUserNameToken(jwt);
                 UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(username);
 
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,
+                        userDetails.getAuthorities());
                 auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e);
         } finally {
 
         }
@@ -49,7 +50,8 @@ public class AuthFilterToken extends OncePerRequestFilter{
         filterChain.doFilter(request, response);
     }
 
-    private String getToken(HttpServletRequest request){
+    private String getToken(HttpServletRequest request) {
+        System.out.println("entra aqui");
         String headerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(headerToken) && headerToken.startsWith("Bearer")) {
             return headerToken.replace("Bearer ", "");
