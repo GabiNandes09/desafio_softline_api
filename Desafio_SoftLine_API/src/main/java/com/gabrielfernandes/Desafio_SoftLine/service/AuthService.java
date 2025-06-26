@@ -1,10 +1,12 @@
 package com.gabrielfernandes.Desafio_SoftLine.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gabrielfernandes.Desafio_SoftLine.models.user.AcessDTO;
 import com.gabrielfernandes.Desafio_SoftLine.models.user.UserRequestDTO;
@@ -20,24 +22,21 @@ public class AuthService {
 
     public AcessDTO login(UserRequestDTO request) {
         try {
-            UsernamePasswordAuthenticationToken userAuth = new UsernamePasswordAuthenticationToken(
+            UsernamePasswordAuthenticationToken authInput = new UsernamePasswordAuthenticationToken(
                     request.getUsername(), request.getPassword());
 
-            Authentication auteAuthentication = authenticationManager.authenticate(userAuth);
+            Authentication auth = authenticationManager.authenticate(authInput);
 
-            UserDetailImpl userAuthenticated = (UserDetailImpl) auteAuthentication.getPrincipal();
+            UserDetailImpl user = (UserDetailImpl) auth.getPrincipal();
+            String token = jwtUtils.generationTokenFromUserDetailsImpl(user);
 
-            String token = jwtUtils.generationTokenFromUserDetailsImpl(userAuthenticated);
+            return new AcessDTO(token);
 
-            AcessDTO acessDTO = new AcessDTO(token);
-
-            return acessDTO;
         } catch (BadCredentialsException e) {
-            throw new RuntimeException("Usuário ou senha inválidos.");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário ou senha inválidos.");
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao realizar login.");
         }
-        return new AcessDTO("Acesso negado");
     }
 
 }

@@ -1,6 +1,7 @@
 package com.gabrielfernandes.Desafio_SoftLine.security.jwt;
 
 import java.security.Key;
+import java.time.Duration;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -24,13 +25,13 @@ public class JwtUtils {
     private String jwtSecret;
 
     @Value("${projeto.jwtExpirationMs}")
-    private int jwtExpirationMs;
+    private Duration jwtExpirationMs;
 
     public String generationTokenFromUserDetailsImpl(UserDetailImpl userDetailsImpl) {
         return Jwts.builder()
                 .subject(userDetailsImpl.getUsername())
                 .issuedAt(new Date())
-                .expiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .expiration(new Date(new Date().getTime() + jwtExpirationMs.toMillis()))
                 .signWith(getSigninKey(), SignatureAlgorithm.HS512).compact();
     }
 
